@@ -16,7 +16,11 @@ class ListaLeilaoAdapter(
 ) : RecyclerView.Adapter<ListaLeilaoAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val viewCriada = LayoutInflater.from(context).inflate(R.layout.item_leilao, parent, false)
+        val viewCriada = LayoutInflater.from(context).inflate(
+                R.layout.item_leilao,
+                parent,
+                false
+        )
         return ViewHolder(viewCriada)
     }
 
@@ -37,7 +41,7 @@ class ListaLeilaoAdapter(
         fun vincula(leilao: Leilao) {
             this.leilao = leilao
             descricao.text = leilao.descricao
-            maiorLance.text = context.getString(R.string.valor_maior_lance, leilao.maiorLance)
+            maiorLance.text = context.getString(R.string.valor_lance, leilao.maiorLance)
         }
 
         init {
@@ -47,9 +51,5 @@ class ListaLeilaoAdapter(
 
     fun pegaLeilaoPorPosicao(posicao: Int): Leilao {
         return leiloes[posicao]
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(leilao: Leilao?)
     }
 }

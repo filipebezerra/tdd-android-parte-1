@@ -41,7 +41,7 @@ class ListaLeilaoActivity : AppCompatActivity() {
                 usuario = Usuario(nome = "Junior"),
                 valor = 200.0
         ))
-        return ArrayList(Arrays.asList(
+        return ArrayList(listOf(
                 console
         ))
     }
