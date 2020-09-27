@@ -1,13 +1,5 @@
-package br.com.alura.leilao.model;
+package br.com.alura.leilao.model
 
-import java.io.Serializable;
+import java.io.Serializable
 
-public class Usuario implements Serializable {
-
-    private final String nome;
-
-    public Usuario(String nome) {
-        this.nome = nome;
-    }
-
-}
+class Usuario(val nome: String) : Serializable

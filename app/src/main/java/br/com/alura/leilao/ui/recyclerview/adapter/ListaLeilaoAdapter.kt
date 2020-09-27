@@ -1,80 +1,55 @@
-package br.com.alura.leilao.ui.recyclerview.adapter;
+package br.com.alura.leilao.ui.recyclerview.adapter
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.content.Context
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import br.com.alura.leilao.R
+import br.com.alura.leilao.model.Leilao
 
-import java.util.List;
+class ListaLeilaoAdapter(
+        private val context: Context,
+        private val leiloes: List<Leilao>,
+        private val onItemClickListener: ((Leilao) -> Unit)
+) : RecyclerView.Adapter<ListaLeilaoAdapter.ViewHolder>() {
 
-import br.com.alura.leilao.R;
-import br.com.alura.leilao.model.Leilao;
-
-public class ListaLeilaoAdapter extends RecyclerView.Adapter<ListaLeilaoAdapter.ViewHolder> {
-
-    private final List<Leilao> leiloes;
-    private final Context context;
-    private OnItemClickListener onItemClickListener;
-
-    public ListaLeilaoAdapter(Context context, List<Leilao> leiloes) {
-        this.context = context;
-        this.leiloes = leiloes;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val viewCriada = LayoutInflater.from(context).inflate(R.layout.item_leilao, parent, false)
+        return ViewHolder(viewCriada)
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val leilao = pegaLeilaoPorPosicao(position)
+        holder.vincula(leilao)
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View viewCriada = LayoutInflater.from(context).inflate(R.layout.item_leilao, parent, false);
-        return new ViewHolder(viewCriada);
+    override fun getItemCount(): Int {
+        return leiloes.size
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Leilao leilao = pegaLeilaoPorPosicao(position);
-        holder.vincula(leilao);
-    }
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val descricao: TextView = itemView.findViewById(R.id.item_leilao_descricao)
+        private val maiorLance: TextView = itemView.findViewById(R.id.item_leilao_maior_lance)
+        private lateinit var leilao: Leilao
 
-    @Override
-    public int getItemCount() {
-        return leiloes.size();
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-
-        private final TextView descricao;
-        private Leilao leilao;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            descricao = itemView.findViewById(R.id.item_leilao_descricao);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onItemClickListener.onItemClick(leilao);
-                }
-            });
+        fun vincula(leilao: Leilao) {
+            this.leilao = leilao
+            descricao.text = leilao.descricao
+            maiorLance.text = context.getString(R.string.valor_maior_lance, leilao.maiorLance)
         }
 
-        void vincula(Leilao leilao) {
-            this.leilao = leilao;
-            descricao.setText(leilao.getDescricao());
+        init {
+            itemView.setOnClickListener { onItemClickListener.invoke(this.leilao) }
         }
-
     }
 
-    public Leilao pegaLeilaoPorPosicao(int posicao) {
-        return this.leiloes.get(posicao);
+    fun pegaLeilaoPorPosicao(posicao: Int): Leilao {
+        return leiloes[posicao]
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(Leilao leilao);
+    interface OnItemClickListener {
+        fun onItemClick(leilao: Leilao?)
     }
-
 }

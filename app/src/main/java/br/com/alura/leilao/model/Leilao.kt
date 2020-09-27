@@ -1,21 +1,17 @@
-package br.com.alura.leilao.model;
+package br.com.alura.leilao.model
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable
+import java.util.*
 
-public class Leilao implements Serializable {
+class Leilao(val descricao: String) : Serializable {
+    private val lances: MutableList<Lance> =  ArrayList()
+    var maiorLance: Double = Double.NEGATIVE_INFINITY
+        private set
 
-    private final String descricao;
-    private final List<Lance> lances;
-
-    public Leilao(String descricao) {
-        this.descricao = descricao;
-        this.lances = new ArrayList<>();
+    fun oferta(lance: Lance) {
+        lances.add(lance)
+        if (lance.valor > maiorLance) {
+            maiorLance = lance.valor
+        }
     }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
 }

@@ -1,15 +1,8 @@
-package br.com.alura.leilao.model;
+package br.com.alura.leilao.model
 
-import java.io.Serializable;
+import java.io.Serializable
 
-public class Lance implements Serializable {
-
-    private final Usuario usuario;
-    private final double valor;
-
-    public Lance(Usuario usuario, double valor) {
-        this.usuario = usuario;
-        this.valor = valor;
-    }
-
-}
+class Lance(
+        val usuario: Usuario,
+        val valor: Double
+) : Serializable
